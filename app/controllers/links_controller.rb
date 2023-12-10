@@ -59,6 +59,15 @@ class LinksController < ApplicationController
     end
   end
 
+  # Has the logic to get original link from :slug and redirect to it, 
+    #   if meets the conditions depending on the link type
+    def redirect_to_large_url
+      link_to_redirect = Link.all.find_by(slug: params[:slug])
+      if link_to_redirect.meets_condition_for_display?
+        redirect_to link_to_redirect.large_url, allow_other_host: true
+      end
+    end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_link

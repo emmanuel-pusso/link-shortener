@@ -18,4 +18,9 @@ class Link < ApplicationRecord
     end
   end
 
+  # checks if the link meets the condition to be displayed, each link type must implement it
+  def meets_condition_for_display?
+    raise NotImplementedError, "Subclasses must define `meets_condition_for_display?` method."
+  end
+
 end
