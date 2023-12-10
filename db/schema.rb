@@ -19,9 +19,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_09_234450) do
     t.string "type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "visited", default: false, null: false
-    t.string "secret", null: false
-    t.datetime "expires_at", null: false
+    t.boolean "visited", default: false
+    t.string "secret"
+    t.datetime "expires_at"
     t.index ["slug"], name: "index_links_on_slug"
     t.index ["user_id"], name: "index_links_on_user_id"
   end
