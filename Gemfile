@@ -2,6 +2,9 @@ source "https://rubygems.org"
 
 ruby "2.7.8"
 
+# This library is an interface to secure random number generators which are suitable for generating session keys in HTTP cookies, etc.
+gem 'securerandom'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.2"
 

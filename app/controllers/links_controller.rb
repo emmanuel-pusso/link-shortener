@@ -22,8 +22,9 @@ class LinksController < ApplicationController
   # POST /links or /links.json
   def create
     @link = Link.new(link_params)
-    @link.user_id = 1
-
+    @link.user_id = 1  #TO_DO: que setee el current_user de la sesion
+    @link.generate_slug
+  
     respond_to do |format|
       if @link.save
         format.html { redirect_to link_url(@link), notice: "Link was successfully created." }
