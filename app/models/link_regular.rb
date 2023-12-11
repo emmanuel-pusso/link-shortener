@@ -5,6 +5,6 @@ class LinkRegular < Link
     end  
 
     def meets_condition_for_display?
-        return true
+        return false
     end
 end

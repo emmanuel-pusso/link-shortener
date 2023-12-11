@@ -63,10 +63,17 @@ class LinksController < ApplicationController
     #   if meets the conditions depending on the link type
     def redirect_to_large_url
       link_to_redirect = Link.all.find_by(slug: params[:slug])
-      if link_to_redirect.meets_condition_for_display?
-        redirect_to link_to_redirect.large_url, allow_other_host: true
+      #if :slug doen't exist on DB returns 404
+      if link_to_redirect.nil?
+        render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+      # if link doesn't match the condition  
+      elsif link_to_redirect.meets_condition_for_display?
+          redirect_to link_to_redirect.large_url, allow_other_host: true
+      # all is fine, redirects to link
+      else
+        render plain: 'Forbidden Access', status: :forbidden
       end
-    end
+    end  
 
   private
     # Use callbacks to share common setup or constraints between actions.

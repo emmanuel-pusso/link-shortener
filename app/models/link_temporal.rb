@@ -9,4 +9,9 @@ class LinkTemporal < Link
             errors.add :expires_at, 'DateTime cannot be in the past'
         end
     end
+
+    def meets_condition_for_display?
+        self.expires_is_not_in_the_past
+    end
+
 end
