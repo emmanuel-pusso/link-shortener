@@ -4,4 +4,9 @@ class LinkEphemeral < Link
     def meets_condition_for_display?
         !(self.visited)
     end
+
+    def update_conditions
+       self.visited = true
+       self.save
+    end
 end

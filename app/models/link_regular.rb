@@ -3,8 +3,11 @@ class LinkRegular < Link
         #'links/link_regular'
         'link'
     end  
-
+ 
     def meets_condition_for_display?
-        return false
+        return true
+    end
+
+    def update_conditions
     end
 end

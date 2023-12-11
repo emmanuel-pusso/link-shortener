@@ -21,22 +21,22 @@
     <%= form.text_field :large_url %>
   </div>
 
-  <div>
-    <%= form.label :expires_at %>
-    <%= form.datetime_local_field :expires_at %>
-  </div>
-
- 
+  <% if (params[:action] == "new") || @link.type == "LinkTemporal" %>
     <div>
-      <% if params[:action] == 'new' %>
-        <%= form.label :type %>
-        <%= form.radio_button :type, 'LinkRegular', checked: true %> LinkRegular
-        <%= form.radio_button :type, 'LinkEphemeral' %> LinkEphemeral
-        <%= form.radio_button :type, 'LinkTemporal' %> LinkTemporal
-      <% end %>
+      <%= form.label :expires_at %>
+      <%= form.datetime_local_field :expires_at %>
     </div>
+  <% end %>
 
-
+  <% if params[:action] == "new" %>
+    <div>
+      <%= form.label :type %>
+      <%= form.radio_button :type, 'LinkRegular', checked: true %> LinkRegular
+      <%= form.radio_button :type, 'LinkEphemeral' %> LinkEphemeral
+      <%= form.radio_button :type, 'LinkTemporal' %> LinkTemporal
+    </div>
+  <% end %>
+    
   <div>
     <%= form.submit %>
   </div>

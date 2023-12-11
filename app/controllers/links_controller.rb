@@ -78,6 +78,7 @@ class LinksController < ApplicationController
         render plain: 'Forbidden Access', status: :forbidden
       # all is fine, redirects to link
       else
+        link_to_redirect.update_conditions
         redirect_to link_to_redirect.large_url, allow_other_host: true
       end
     end  
