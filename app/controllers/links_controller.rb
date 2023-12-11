@@ -23,13 +23,8 @@ class LinksController < ApplicationController
   def create
 
     # Create the link with form parameters
-    if (link_params[:type] == "LinkRegular")
-      @link = LinkRegular.new(link_params)
-    elsif (link_params[:type] == "LinkEphemeral")
-      @link = LinkEphemeral.new(link_params)
-    elsif (link_params[:type] == "LinkTemporal")
-      @link = LinkTemporal.new(link_params)
-    end
+      # dynamically convert a string into a class name and instantiate an object
+   @link = Object.const_get(link_params[:type]).new(link_params)
     
     # Set the slug (automatically generated on the model) to the new link
     @link.user_id = 1  #TO_DO: que setee el current_user de la sesion
