@@ -27,8 +27,10 @@ class LinksController < ApplicationController
    @link = Object.const_get(link_params[:type]).new(link_params)
     
     # Set the slug (automatically generated on the model) to the new link
-    @link.user_id = 1  #TO_DO: que setee el current_user de la sesion
     @link.generate_slug
+
+    #TO_DO: The user_id must be obtained from the user who is currently logged in.
+    @link.user_id = 1  
   
     respond_to do |format|
       if @link.save
@@ -68,15 +70,15 @@ class LinksController < ApplicationController
     #   if meets the conditions depending on the link type
     def redirect_to_large_url
       link_to_redirect = Link.all.find_by(slug: params[:slug])
-      #if :slug doen't exist on DB returns 404
+      #if :slug doesn't exist on DB returns 404
       if link_to_redirect.nil?
         render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
       # if link doesn't match the condition  
-      elsif link_to_redirect.meets_condition_for_display?
-          redirect_to link_to_redirect.large_url, allow_other_host: true
+      elsif !link_to_redirect.meets_condition_for_display?
+        render plain: 'Forbidden Access', status: :forbidden
       # all is fine, redirects to link
       else
-        render plain: 'Forbidden Access', status: :forbidden
+        redirect_to link_to_redirect.large_url, allow_other_host: true
       end
     end  
 
