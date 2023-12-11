@@ -22,8 +22,15 @@
   </div>
 
   <div>
-    <%= form.label :type, style: "display: block" %>
-    <%= form.text_field :type %>
+    <%= form.label :expires_at %>
+    <%= form.datetime_local_field :expires_at %>
+  </div>
+
+  <div>
+    <%= form.label :type %>
+    <%= form.radio_button :type, 'LinkRegular' %> LinkRegular
+    <%= form.radio_button :type, 'LinkEphemeral' %> LinkEphemeral
+    <%= form.radio_button :type, 'LinkTemporal' %> LinkTemporal
   </div>
 
   <div>

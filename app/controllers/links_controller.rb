@@ -21,7 +21,17 @@ class LinksController < ApplicationController
 
   # POST /links or /links.json
   def create
-    @link = Link.new(link_params)
+
+    # Create the link with form parameters
+    if (link_params[:type] == "LinkRegular")
+      @link = LinkRegular.new(link_params)
+    elsif (link_params[:type] == "LinkEphemeral")
+      @link = LinkEphemeral.new(link_params)
+    elsif (link_params[:type] == "LinkTemporal")
+      @link = LinkTemporal.new(link_params)
+    end
+    
+    # Set the slug (automatically generated on the model) to the new link
     @link.user_id = 1  #TO_DO: que setee el current_user de la sesion
     @link.generate_slug
   
@@ -83,6 +93,6 @@ class LinksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def link_params
-      params.require(:link).permit(:name, :large_url, :slug, :type)
+      params.require(:link).permit(:name, :large_url, :slug, :type, :expires_at, :visited, :secret)
     end
 end

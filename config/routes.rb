@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :links
   resources :link_regulars, controller: 'links'
+  resources :link_ephemerals, controller: 'links'
+  resources :link_temporals, controller: 'links'
+
+
   get '/l/:slug', to: 'links#redirect_to_large_url'
 
 
