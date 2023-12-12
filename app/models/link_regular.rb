@@ -5,7 +5,7 @@ class LinkRegular < Link
     end  
  
     def meets_condition_for_display?
-        return true
+        result = { success: true }
     end
 
     def update_conditions

@@ -3,7 +3,13 @@ class LinkTemporal < Link
     validate :expires_is_not_in_the_past
 
     def meets_condition_for_display?
-        self.expires_at > DateTime.current
+        if self.expires_at > DateTime.current
+            result = { success: true }
+        else
+            result = { success: false, http_status: 404 }
+        end
+
+        result
     end
 
     def update_conditions
