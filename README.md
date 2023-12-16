@@ -23,7 +23,7 @@ este documento).
 3. Abrir la aplicación de Rails, y en una Terminal ejecutar los siguientes comandos:
   - _Instalar gemas:_ `bundle install`
   - _Crear BD y correr migraciones:_ `rails db:create db:migrate`
-  - _Para cargar las BD:_ `rails db:seeds`
+  - _Para cargar las BD:_ `rails db:seed`
   - _Para levantar la aplicación:_ `rails server`
   - _Abrir el browser y navegar a la url:_ http://localhost:3000/links
 
