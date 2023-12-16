@@ -30,10 +30,8 @@
 
   <% if params[:action] == "new" %>
     <div>
-      <%= form.label :type %>
-      <%= form.radio_button :type, 'LinkRegular', checked: true %> LinkRegular
-      <%= form.radio_button :type, 'LinkEphemeral' %> LinkEphemeral
-      <%= form.radio_button :type, 'LinkTemporal' %> LinkTemporal
+      <%= form.label :type, 'Select Link Type:' %>
+      <%= form.select :type, options_for_select(['LinkRegular', 'LinkTemporal', 'LinkEphemeral'], 'LinkRegular') %>
     </div>
   <% end %>
     

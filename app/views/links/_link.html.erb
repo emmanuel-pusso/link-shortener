@@ -19,14 +19,14 @@
     <%= link.type %>
   </p>
 
-  <% if request.path.include?('ephemerals') %>
+  <% if link.type == "LinkEphemeral" %>
     <p>
       <strong>Visited:</strong>
       <%= link.visited %>
     </p>
   <% end %>
 
-  <% if request.path.include?('temporals') %>
+  <% if link.type == "LinkTemporal" %>
     <p>
       <strong>Expires At:</strong>
       <%= link.expires_at %>

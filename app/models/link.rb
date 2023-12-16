@@ -8,6 +8,9 @@ class Link < ApplicationRecord
     message: "is not a valid URL"
   }
 
+  # perform this action right after calling new and before calling save
+  before_validation :complete_information
+
   # This method generate a unique slug, and assign it to user
   def generate_slug
     loop do
@@ -27,5 +30,14 @@ class Link < ApplicationRecord
   def update_conditions
     raise NotImplementedError, "Subclasses must define `update_conditions` method."
   end
+
+  private
+
+    def complete_information
+      # Set the slug (automatically generated on the model) to the new link
+      generate_slug
+      #TO_DO: The user_id must be obtained from the user who is currently logged in.
+      self.user_id = 1  
+    end
 
 end

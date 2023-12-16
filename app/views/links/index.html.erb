@@ -21,7 +21,7 @@
           <td><%= link.type %></td>
           <td><%= link.large_url %></td>
           <td><%= link.slug %></td>
-          <td> <%= link_to "Show this link", polymorphic_path(link) %> </td>
+          <td> <%= link_to "Show this link", link_path(link) %> </td>
         </tr>
        <% end %>
     </tbody>

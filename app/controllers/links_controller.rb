@@ -26,12 +26,6 @@ class LinksController < ApplicationController
       # dynamically convert a string into a class name and instantiate an object
    @link = Object.const_get(link_params[:type]).new(link_params)
     
-    # Set the slug (automatically generated on the model) to the new link
-    @link.generate_slug
-
-    #TO_DO: The user_id must be obtained from the user who is currently logged in.
-    @link.user_id = 1  
-  
     respond_to do |format|
       if @link.save
         format.html { redirect_to link_url(@link), notice: "Link was successfully created." }
