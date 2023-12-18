@@ -22,7 +22,7 @@ class Link < ApplicationRecord
   end
 
   # checks if the link meets the condition to be displayed, each link type must implement it
-  def meets_condition_for_display?
+  def meets_condition_for_display? (password = nil)
     raise NotImplementedError, "Subclasses must define `meets_condition_for_display?` method."
   end
 

@@ -28,10 +28,17 @@
     </div>
   <% end %>
 
+  <% if (params[:action] == "new") || @link.type == "LinkPrivate" %>
+    <div>
+      <%= form.label :secret %>
+      <%= form.text_field :secret %>
+    </div>
+  <% end %>
+
   <% if params[:action] == "new" %>
     <div>
       <%= form.label :type, 'Select Link Type:' %>
-      <%= form.select :type, options_for_select(['LinkRegular', 'LinkTemporal', 'LinkEphemeral'], 'LinkRegular') %>
+      <%= form.select :type, options_for_select(['LinkRegular', 'LinkTemporal', 'LinkEphemeral', 'LinkPrivate'], 'LinkRegular') %>
     </div>
   <% end %>
     

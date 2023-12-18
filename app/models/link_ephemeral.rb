@@ -1,14 +1,8 @@
 class LinkEphemeral < Link
     validates :visited, inclusion: [true, false]
 
-    def meets_condition_for_display?
-        if !(self.visited)
-            result = { success: true }
-        else
-            result = { success: false, http_status: 403 }
-        end
-        
-        result 
+    def meets_condition_for_display? (password = nil)
+        return !self.visited
     end
 
     def update_conditions
