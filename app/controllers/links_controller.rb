@@ -1,5 +1,6 @@
 class LinksController < ApplicationController
   before_action :set_link, only: %i[ show edit update destroy ]
+  before_action :set_link_from_slug, only: %i[redirect_to_large_url]
 
   # GET /links or /links.json
   def index
@@ -64,31 +65,25 @@ class LinksController < ApplicationController
     #   if meets the conditions depending on the link type
     def redirect_to_large_url
      
-      link_to_redirect = Link.all.find_by(slug: params[:slug])
-
       #if :slug doesn't exist on DB returns 404
-      if link_to_redirect.nil?
+      if @link_to_redirect.nil?
         render plain: 'Not Found', status: :not_found
-      end 
-
-      # link exists, check if it meets the condition 
-      result = link_to_redirect.meets_condition_for_display?
-
-      if result[:success]
-        link_to_redirect.update_conditions
-        redirect_to link_to_redirect.large_url, allow_other_host: true
       else
-        case result[:http_status]
-        when 403
-          render plain: 'Forbidden Access', status: :forbidden
-        when 404
-          render plain: 'Not Found', status: :not_found
+        case (@link_to_redirect.type)
+        when 'LinkPrivate'
+          # redirect to 'private.erb' view
         else
-          # Handle other cases as needed
-          render plain: 'Unknown Status', status: :internal_server_error
+          # check if it meets the condition 
+          if @link_to_redirect.meets_condition_for_display?
+            @link_to_redirect.update_conditions
+            redirect_to @link_to_redirect.large_url, allow_other_host: true
+          else
+            redirection_on_error
+          end
         end
-      end  
+      end
     end
+  
    
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -96,8 +91,21 @@ class LinksController < ApplicationController
       @link = Link.find(params[:id])
     end
 
+    def set_link_from_slug
+      @link_to_redirect = Link.find_by(slug: params[:slug])
+    end
+
     # Only allow a list of trusted parameters through.
     def link_params
       params.require(:link).permit(:name, :large_url, :slug, :type, :expires_at, :visited, :secret)
     end
+
+    def redirection_on_error
+      if @link_to_redirect.type == 'LinkTemporal'
+        render plain: 'Not Found', status: :not_found
+      elsif @link_to_redirect.type == 'LinkEphemeral'
+        render plain: 'Forbidden Access', status: :forbidden
+      end
+    end
+
 end
