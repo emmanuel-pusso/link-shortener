@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
   before_action :set_link, only: %i[ show edit update destroy ]
-  before_action :set_link_from_slug, only: %i[redirect_to_large_url]
+  before_action :set_link_from_slug, only: %i[redirect_to_large_url redirect_to_large_url_for_private_links]
 
   # GET /links or /links.json
   def index
@@ -71,7 +71,8 @@ class LinksController < ApplicationController
       else
         case (@link_to_redirect.type)
         when 'LinkPrivate'
-          # redirect to 'private.erb' view
+          # redirect to view to request password to user
+          render 'private'
         else
           # check if it meets the condition 
           if @link_to_redirect.meets_condition_for_display?
@@ -81,6 +82,16 @@ class LinksController < ApplicationController
             redirection_on_error
           end
         end
+      end
+    end
+
+    def redirect_to_large_url_for_private_links
+      if @link_to_redirect.meets_condition_for_display? (link_params[:password_private])
+        @link_to_redirect.update_conditions
+        redirect_to @link_to_redirect.large_url, allow_other_host: true
+      else
+        flash[:error] = "Error: Invalid password, please try again."
+        render 'private'
       end
     end
   

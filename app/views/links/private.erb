@@ -1,6 +1,6 @@
 <h1>Enter Password</h1>
 
-<%= form_with(url: { controller: 'links', action: 'redirect_to_large_url_for_private_links' }, method: 'post') do |form| %>
+<%= form_with(url: redirect_to_large_url_for_private_links_path, method: :post) do |form| %>
   <%= form.label :password_private %>
   <%= form.text_field :password_private %>
 

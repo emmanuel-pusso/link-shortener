@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :links
 
   get '/l/:slug', to: 'links#redirect_to_large_url'
+  post 'l/:slug', to: 'links#redirect_to_large_url_for_private_links', as: 'redirect_to_large_url_for_private_links'
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
