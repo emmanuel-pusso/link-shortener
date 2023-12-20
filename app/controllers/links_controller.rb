@@ -29,7 +29,7 @@ class LinksController < ApplicationController
     @link = Object.const_get(link_params[:type]).new(link_params)
     
     #The user_id must be obtained from the user who is currently logged in
-    @link.user_id = @current_user  
+    @link.assign_attributes(user_id: @current_user.id)  
     
     respond_to do |format|
       if @link.save

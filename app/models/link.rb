@@ -33,7 +33,7 @@ class Link < ApplicationRecord
 
   private
 
-    def complete_information (current_user)
+    def complete_information
       # Set the slug (automatically generated on the model) to the new link
       generate_slug
     end
