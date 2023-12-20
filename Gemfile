@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "2.7.8"
 
+gem 'devise'
+
 # This library is an interface to secure random number generators which are suitable for generating session keys in HTTP cookies, etc.
 gem 'securerandom'
 

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :links
 
   get '/l/:slug', to: 'links#redirect_to_large_url'
