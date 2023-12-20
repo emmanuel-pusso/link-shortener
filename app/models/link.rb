@@ -33,11 +33,9 @@ class Link < ApplicationRecord
 
   private
 
-    def complete_information
+    def complete_information (current_user)
       # Set the slug (automatically generated on the model) to the new link
       generate_slug
-      #TO_DO: The user_id must be obtained from the user who is currently logged in.
-      self.user_id = 1  
     end
 
 end
