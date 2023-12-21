@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  # Redirect root to the sign-in page
+  devise_scope :user do
+    root to: 'devise/sessions#new'
+  end
+  
   # Update to use the custom controller for registrations
   devise_for :users, controllers: { registrations: 'users/registrations' }
 

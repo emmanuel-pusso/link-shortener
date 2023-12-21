@@ -1,4 +1,24 @@
+<%= javascript_include_tag 'application' %>
+
 <p style="color: green"><%= notice %></p>
+
+<style>
+    /* Optional: Add styling to the div */
+    .right-aligned-div {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+      float: right;
+    }
+</style>
+
+ <div class="right-aligned-div">
+    <p> Welcome <%= @current_user.username %> </p>
+    <% if user_signed_in? %>
+      <!-- Display logout link if user is signed in -->
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+    <% end %>
+  </div>
 
 <h1>Links</h1>
 
