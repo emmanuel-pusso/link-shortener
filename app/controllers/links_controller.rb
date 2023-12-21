@@ -86,12 +86,12 @@ class LinksController < ApplicationController
     end
 
     def redirect_to_large_url_for_private_links
-      if @link_to_redirect.meets_condition_for_display? (link_params[:password_private])
+      if @link_to_redirect.meets_condition_for_display? (params[:password_private])
         @link_to_redirect.update_conditions
         redirect_to @link_to_redirect.large_url, allow_other_host: true
       else
         flash[:error] = "Error: Invalid password, please try again."
-        render 'private'
+        redirect_to redirect_to_large_url_for_private_links_path
       end
     end
   
