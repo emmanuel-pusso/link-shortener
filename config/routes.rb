@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  # Update to use the custom controller for registrations
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+
   resources :links
 
   get '/l/:slug', to: 'links#redirect_to_large_url'

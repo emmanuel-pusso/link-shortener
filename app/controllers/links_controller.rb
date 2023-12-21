@@ -1,10 +1,11 @@
 class LinksController < ApplicationController
+  before_action :set_current_user
   before_action :set_link, only: %i[ show edit update destroy ]
   before_action :set_link_from_slug, only: %i[redirect_to_large_url redirect_to_large_url_for_private_links]
 
-  # GET /links or /links.json
+  # GET /links or /links.json for @current_user
   def index
-    @links = Link.all
+    @links = Link.where(user_id: @current_user.id)
   end
 
   # GET /links/1 or /links/1.json
@@ -25,7 +26,10 @@ class LinksController < ApplicationController
 
     # Create the link with form parameters
       # dynamically convert a string into a class name and instantiate an object
-   @link = Object.const_get(link_params[:type]).new(link_params)
+    @link = Object.const_get(link_params[:type]).new(link_params)
+    
+    #The user_id must be obtained from the user who is currently logged in
+    @link.assign_attributes(user_id: @current_user.id)  
     
     respond_to do |format|
       if @link.save
@@ -97,6 +101,11 @@ class LinksController < ApplicationController
   
    
   private
+
+    def set_current_user
+      @current_user = current_user
+    end 
+
     # Use callbacks to share common setup or constraints between actions.
     def set_link
       @link = Link.find(params[:id])
