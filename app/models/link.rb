@@ -14,7 +14,7 @@ class Link < ApplicationRecord
   # This method generate a unique slug, and assign it to user
   def generate_slug
     loop do
-      self.slug = SecureRandom.alphanumeric(6).upcase
+      self.slug = SecureRandom.alphanumeric(6)
 
       # Check if the generated slug is unique
       break unless Link.exists?(slug: self.slug)

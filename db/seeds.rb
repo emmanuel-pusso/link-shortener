@@ -8,11 +8,21 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-user = User.create(username: "epusso", email: "emmanuel.pusso@gmail.com", password: "12345")
+user1 = User.create(username: "epusso", email: "epusso@gmail.com", password: "123456")
+user2 = User.create(username: "nramirez", email: "nramirez@gmail.com", password: "654321")
 
-LinkRegular.create(user_id: user.id, name:"LinkRegularA", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
-LinkRegular.create(user_id: user.id, name:"LinkRegularB", large_url: "https://www.info.unlp.edu.ar/ingreso-2024-inscripcion-para-estudiar-en-informatica/", slug:"X0KK0E", type: "LinkRegular")
-LinkEphemeral.create(user_id: user.id, name:"LinkVisited", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/", slug:"7KTVFH", visited: true, type: "LinkEphemeral")
-LinkEphemeral.create(user_id: user.id, name:"LinkNotVisited", large_url: "https://www.info.unlp.edu.ar/graduados-de-informatica-fueron-reconocidos-por-la-unlp-3/", slug:"CELYBA", visited: false, type: "LinkEphemeral")
-LinkTemporal.create(user_id: user.id, name:"LinkExpired", large_url: "https://www.info.unlp.edu.ar/licenciatura-en-informatica-plan-2021/", slug:"R8RVL5", expires_at: "2023-12-11T20:30", type: "LinkTemporal")
-LinkTemporal.create(user_id: user.id, name:"LinkNotExpired", large_url: "https://www.info.unlp.edu.ar/licenciatura-en-informatica-plan-2021/", slug:"QYDL3P", expires_at: "2023-12-30T09:15", type: "LinkTemporal")
+# Links for user1
+LinkRegular.create(user_id: user1.id, name:"LinkRegularA", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
+LinkRegular.create(user_id: user1.id, name:"LinkRegularB", large_url: "https://www.info.unlp.edu.ar/ingreso-2024-inscripcion-para-estudiar-en-informatica/", slug:"X0KK0E", type: "LinkRegular")
+LinkEphemeral.create(user_id: user1.id, name:"LinkVisited", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/", slug:"7KTVFH", visited: true, type: "LinkEphemeral")
+LinkEphemeral.create(user_id: user1.id, name:"LinkNotVisited", large_url: "https://www.info.unlp.edu.ar/graduados-de-informatica-fueron-reconocidos-por-la-unlp-3/", slug:"CELYBA", visited: false, type: "LinkEphemeral")
+LinkTemporal.create(user_id: user1.id, name:"LinkNotExpired", large_url: "https://www.info.unlp.edu.ar/licenciatura-en-informatica-plan-2021/", slug:"QYDL3P", expires_at: DateTime.current + 1.day, type: "LinkTemporal")
+LinkPrivate.create(user_id: user1.id, name:"LinkPrivate", large_url: "https://www.info.unlp.edu.ar/ingreso-2024-inscripcion-para-estudiar-en-informatica/", slug:"Jq3R7z", secret: "Password123!", type: "LinkPrivate")
+
+# Links for user1
+LinkPrivate.create(user_id: user2.id, name:"LinkPrivate2", large_url: "https://www.info.unlp.edu.ar/curso-de-verano-2024/", slug:"W7zp1A", secret: "Password123!!", type: "LinkPrivate")
+LinkTemporal.create(user_id: user2.id, name:"LinkExpiredNext1Day", large_url: "https://www.info.unlp.edu.ar/analista-programador-universitario/", slug:"qY96zK", expires_at: DateTime.current + 1.day, type: "LinkTemporal")
+LinkTemporal.create(user_id: user2.id, name:"LinkExpiredNext1Hour", large_url: "http://www.cinemacenter.com.ar", slug:"qY0zS2", expires_at: DateTime.current + 1.hour, type: "LinkTemporal")
+LinkTemporal.create(user_id: user2.id, name:"LinkExpiredNext5Minutes", large_url: "https://www.info.unlp.edu.ar/analista-programador-universitario/", slug:"YR1x5w", expires_at: DateTime.current + 5.minutes, type: "LinkTemporal")
+
+
