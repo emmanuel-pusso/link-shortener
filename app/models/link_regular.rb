@@ -7,7 +7,4 @@ class LinkRegular < Link
     def meets_condition_for_display? (password = nil)
         return true
     end
-
-    def update_conditions
-    end
 end

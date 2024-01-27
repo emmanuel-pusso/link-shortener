@@ -5,7 +5,8 @@ class LinkEphemeral < Link
         return !self.visited
     end
 
-    def update_conditions
+    def update_conditions (user_ip_address)
+       super (user_ip_address)
        self.visited = true
        self.save
     end

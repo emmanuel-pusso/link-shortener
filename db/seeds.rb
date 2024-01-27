@@ -12,8 +12,18 @@ user1 = User.create(username: "epusso", email: "epusso@gmail.com", password: "12
 user2 = User.create(username: "nramirez", email: "nramirez@gmail.com", password: "654321")
 
 # Links for user1
-LinkRegular.create(user_id: user1.id, name:"LinkRegularA", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
-LinkRegular.create(user_id: user1.id, name:"LinkRegularB", large_url: "https://www.info.unlp.edu.ar/ingreso-2024-inscripcion-para-estudiar-en-informatica/", slug:"X0KK0E", type: "LinkRegular")
+link1 = LinkRegular.create(user_id: user1.id, name:"LinkRegularA", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
+# generates 10 visits (one per day) for a link, starting from an initial ip and an initial date
+initial_ip = '192.168.0.1'
+initial_date = Date.today
+(0..9).each do |i|
+  ip_address = "#{initial_ip[0..-2]}#{i}"
+  Link.find_by(slug: link1.slug).visits.create(visited_at: initial_date, ip_address: ip_address)
+  initial_date += 1.day
+end
+
+
+link2 = LinkRegular.create(user_id: user1.id, name:"LinkRegularB", large_url: "https://www.info.unlp.edu.ar/ingreso-2024-inscripcion-para-estudiar-en-informatica/", slug:"X0KK0E", type: "LinkRegular")
 LinkEphemeral.create(user_id: user1.id, name:"LinkVisited", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/", slug:"7KTVFH", visited: true, type: "LinkEphemeral")
 LinkEphemeral.create(user_id: user1.id, name:"LinkNotVisited", large_url: "https://www.info.unlp.edu.ar/graduados-de-informatica-fueron-reconocidos-por-la-unlp-3/", slug:"CELYBA", visited: false, type: "LinkEphemeral")
 LinkTemporal.create(user_id: user1.id, name:"LinkNotExpired", large_url: "https://www.info.unlp.edu.ar/licenciatura-en-informatica-plan-2021/", slug:"QYDL3P", expires_at: DateTime.current + 1.day, type: "LinkTemporal")

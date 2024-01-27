@@ -6,9 +6,6 @@ class LinkTemporal < Link
         return self.expires_at > DateTime.current
     end
 
-    def update_conditions
-    end
-
     private
 
     def expires_is_not_in_the_past
