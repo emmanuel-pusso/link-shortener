@@ -14,6 +14,12 @@ Rails.application.routes.draw do
   post 'l/:slug', to: 'links#redirect_to_large_url_for_private_links', as: 'redirect_to_large_url_for_private_links'
 
 
+  # Define the route for GET /links/:id_link/report
+  get '/links/:id_link/report', to: 'links#report', as: 'link_report'
+  get '/links/:id_link/report', to: 'links#clear', as: 'link_clear'
+
+  #get '/links/:id_link/report/clear', to: 'links#clear', as: 'link_clear'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

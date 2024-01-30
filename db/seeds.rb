@@ -15,7 +15,8 @@ user2 = User.create(username: "nramirez", email: "nramirez@gmail.com", password:
 link1 = LinkRegular.create(user_id: user1.id, name:"LinkRegularA", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
 # generates 10 visits (one per day) for a link, starting from an initial ip and an initial date
 initial_ip = '192.168.0.1'
-initial_date = Date.today
+#initial_date = Date.today
+initial_date = Date.new(2024, 1, 25)
 (0..9).each do |i|
   ip_address = "#{initial_ip[0..-2]}#{i}"
   Link.find_by(slug: link1.slug).visits.create(visited_at: initial_date, ip_address: ip_address)

@@ -1,0 +1,27 @@
+<%= form_tag(link_report_url, method: :get) do %>
+  <%= text_field_tag :ip_address, params[:ip_address], placeholder: "Search by IP Address" %>
+  <%= date_field_tag :start_date, params[:start_date], placeholder: "Start Date" %>
+  <%= date_field_tag :end_date, params[:end_date], placeholder: "End Date" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<!-- Display flash messages -->
+ <div style="color: red">
+  <% flash.each do |key, value| %>
+    <div class="flash <%= key %>"><%= value %></div>
+  <% end %>
+</div>
+
+<%= link_to "Clean Filters", link_clear_url %>
+
+<% if @visits.any? %>
+  <% @visits.each do |visit| %>
+    <p>Date: <%= visit.visited_at.strftime("%m-%d-%Y") %>, IP Address: <%= visit.ip_address %></p>
+  <% end %>
+<% else %>
+  <p>No results found</p>
+<% end %>
+
+<%= link_to "Back to links", links_path %>
+
+

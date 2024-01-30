@@ -21,6 +21,31 @@ class LinksController < ApplicationController
   def edit
   end
 
+  # GET /links/1/report
+  def report
+
+    # Access the :id_link parameter from the URL
+    @link_id = params[:id_link]
+
+    @visits = Link.find(@link_id).visits.all
+    # Allows search by ip_address with a partial match
+    @visits = @visits.where('ip_address LIKE ?', "%#{params[:ip_address]}%") if params[:ip_address].present?
+    # Allows search by date range, also searching bigger than a date or less than a date (at least one is required)
+    if params[:start_date].present? && params[:end_date].present? && params[:start_date] > params[:end_date]
+      flash[:error] = "End Date must be after Start Date"
+      redirect_back fallback_location: root_path
+    elsif params[:start_date].present? || params[:end_date].present?
+        from = params[:start_date].present? ? params[:start_date] : Link.find(@link_id).visits.minimum(:visited_at).strftime("%Y-%m-%d")
+        to = params[:end_date].present? ? params[:end_date] : Date.today.strftime("%Y-%m-%d")
+        @visits = @visits.where(visited_at: from..to)
+      end
+  end
+
+  def clear
+    @visits = Visit.all
+    render :report
+  end
+
   # POST /links or /links.json
   def create
 
