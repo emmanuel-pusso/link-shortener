@@ -57,10 +57,11 @@
 <hr>
 <h3> Create New Link </h3>
 
-<%= form_tag(new_link_path, method: "get") do %>
-  <%= radio_button_tag :link_type, "LinkRegular", true %> Regular
-  <%= radio_button_tag :link_type, "LinkPrivate" %> Private
-  <%= radio_button_tag :link_type, "LinkEphemeral" %> Ephemeral
-   <%= radio_button_tag :link_type, "LinkTemporal" %> Temporal
-  <%= submit_tag "New Link" %>
+<%= form_with(url: new_link_path, method: "get") do |form| %>
+  <%= form.radio_button(:link_type, "LinkRegular", checked: true) %> Regular
+  <%= form.radio_button(:link_type, "LinkPrivate") %> Private
+  <%= form.radio_button(:link_type, "LinkEphemeral") %> Ephemeral
+  <%= form.radio_button(:link_type, "LinkTemporal") %> Temporal
+  <%= form.submit "New Link" %>
 <% end %>
+

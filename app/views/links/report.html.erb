@@ -11,15 +11,15 @@
 
 
 <h2> <u> Report #1 </u> </h2>
-<%= form_tag(link_report_url, method: :get) do %>
-  <%= text_field_tag :ip_address, params[:ip_address], placeholder: "Search by IP Address" %>
+<%= form_with(url: link_report_url, method: "get") do |form| %>
+  <%= form.text_field :ip_address, value: params[:ip_address], placeholder: "Search by IP Address" %>
   <!-- Label for start_date -->
-  <label for="start_date">Start Date:</label>
-  <%= date_field_tag :start_date, params[:start_date] %>
+  <%= form.label :start_date, "Start Date"%>
+  <%= form.date_field :start_date, value: params[:start_date] %>
   <!-- Label for end_date -->
-  <label for="end_date">End Date:</label>
-  <%= date_field_tag :end_date, params[:end_date] %>
-  <%= submit_tag "Search" %>
+  <%= form.label :end_date, "End Date" %>
+  <%= form.date_field :end_date, value: params[:end_date] %>
+  <%= form.submit "Search" %>
 <% end %>
 <p> <b> <%= link_to "Clear", link_clear_url %> </b> </p>
 
