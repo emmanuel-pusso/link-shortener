@@ -12,15 +12,36 @@ user1 = User.create(username: "epusso", email: "epusso@gmail.com", password: "12
 user2 = User.create(username: "nramirez", email: "nramirez@gmail.com", password: "654321")
 
 # Links for user1
-link1 = LinkRegular.create(user_id: user1.id, name:"LinkRegularA", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
-# generates 10 visits (one per day) for a link, starting from an initial ip and an initial date
+link1 = LinkRegular.create(user_id: user1.id, name:"LinkWithReports", large_url: "https://www.info.unlp.edu.ar/acceso-alumnos/tren-universitario-articulo/", slug:"FTI7VT", type: "LinkRegular")
+
+# generate 10 visits (from an initial day, 1 visit per day is generated, with different ip_address)
 initial_ip = '192.168.0.1'
-#initial_date = Date.today
-initial_date = Date.new(2024, 1, 25)
+initial_date = Date.new(2023, 9, 25)
 (0..9).each do |i|
   ip_address = "#{initial_ip[0..-2]}#{i}"
   Link.find_by(slug: link1.slug).visits.create(visited_at: initial_date, ip_address: ip_address)
   initial_date += 1.day
+end
+
+# generate 6 visits (on the same day, with different ip_address)
+initial_ip = '192.168.1.0'
+(0..5).each do |i|
+  ip_address = "#{initial_ip[0..-2]}#{i}"
+  Link.find_by(slug: link1.slug).visits.create(visited_at: Date.new(2023, 10, 13), ip_address: ip_address)
+end
+
+# generate 8 visits (on different days, with same ip_address)
+initial_date = Date.new(2023, 11, 03)
+(0..7).each do |i|
+  ip_address = "#{initial_ip[0..-2]}#{i}"
+  Link.find_by(slug: link1.slug).visits.create(visited_at: initial_date, ip_address: '192.168.2.3')
+  initial_date += 1.day
+end
+
+# generate 7 visits (on the same day, with same ip_address)
+(0..6).each do |i|
+  ip_address = "#{initial_ip[0..-2]}#{i}"
+  Link.find_by(slug: link1.slug).visits.create(visited_at: Date.today - 5, ip_address: '192.173.1.2')
 end
 
 
