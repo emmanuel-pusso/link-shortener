@@ -15,8 +15,8 @@ Rails.application.routes.draw do
 
 
   # Define the route for GET /links/:id_link/report
-  get '/links/:id_link/report', to: 'links#report', as: 'link_report'
-  get '/links/:id_link/report', to: 'links#clear', as: 'link_clear'
+  get '/links/:id/report', to: 'links#report', as: 'link_report'
+  get '/links/:id/report', to: 'links#clear', as: 'link_clear'
 
   #get '/links/:id_link/report/clear', to: 'links#clear', as: 'link_clear'
 

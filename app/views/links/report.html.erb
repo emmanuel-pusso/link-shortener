@@ -1,9 +1,27 @@
+<style>
+  hr {
+    border: 5px solid #ccc; /* Adjust the color and thickness of the line */
+    margin-top: 20px; /* Adjust the top margin */
+    margin-bottom: 20px; /* Adjust the bottom margin */
+  }
+</style>
+
+<h1> See reports for link: <%=@link.name%> </h1>
+<h3> <b> <%= link_to "Back to links", links_path %> </b></h3>
+
+
+<h2> <u> Report #1 </u> </h2>
 <%= form_tag(link_report_url, method: :get) do %>
   <%= text_field_tag :ip_address, params[:ip_address], placeholder: "Search by IP Address" %>
-  <%= date_field_tag :start_date, params[:start_date], placeholder: "Start Date" %>
-  <%= date_field_tag :end_date, params[:end_date], placeholder: "End Date" %>
+  <!-- Label for start_date -->
+  <label for="start_date">Start Date:</label>
+  <%= date_field_tag :start_date, params[:start_date] %>
+  <!-- Label for end_date -->
+  <label for="end_date">End Date:</label>
+  <%= date_field_tag :end_date, params[:end_date] %>
   <%= submit_tag "Search" %>
 <% end %>
+<p> <b> <%= link_to "Clear", link_clear_url %> </b> </p>
 
 <!-- Display flash messages -->
  <div style="color: red">
@@ -12,16 +30,27 @@
   <% end %>
 </div>
 
-<%= link_to "Clean Filters", link_clear_url %>
 
-<% if @visits.any? %>
-  <% @visits.each do |visit| %>
-    <p>Date: <%= visit.visited_at.strftime("%m-%d-%Y") %>, IP Address: <%= visit.ip_address %></p>
+
+<p> <b> Date</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <b> IP address </b> </p>
+<% if @visits_search.any? %>
+  <% @visits_search.each do |visit| %>
+    <p> <%= visit.visited_at.strftime("%m-%d-%Y") %> | <%= visit.ip_address %></p>
   <% end %>
 <% else %>
   <p>No results found</p>
 <% end %>
 
-<%= link_to "Back to links", links_path %>
+<hr>
 
+<h2> <u> Report #2 </u> </h2>
+
+<% if @visits_count.any? %>
+  <p> <b> Date</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <b> Amounts of Visits </b> </p>
+  <% @visits_count.each do |date, count|%>
+    <p> <%= date %> | <%= count %> </p>
+  <% end %>
+<% else %>
+  <p>No results found</p>
+<% end %>
 

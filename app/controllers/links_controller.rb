@@ -1,7 +1,8 @@
 class LinksController < ApplicationController
   before_action :set_current_user
-  before_action :set_link, only: %i[ show edit update destroy ]
+  before_action :set_link, only: %i[ show edit update destroy report ]
   before_action :set_link_from_slug, only: %i[redirect_to_large_url redirect_to_large_url_for_private_links]
+  before_action :set_visits_to_link, only: %i[ report ]
 
   # GET /links or /links.json for @current_user
   def index
@@ -22,27 +23,31 @@ class LinksController < ApplicationController
   end
 
   # GET /links/1/report
+  # @visits_search include visits for Report #1 (if no filter was applied, return all visits, otherwise, it returns the subset of visits that match the filters)
+  # @visits_count include visits for Report #2 (returns a a hash where keys are dates and values are the counts of visits for each day for the specified link)
   def report
+    
+    # @visits_count include visits for Report #2 
+    @visits_count = @visits.group(:visited_at).count
 
-    # Access the :id_link parameter from the URL
-    @link_id = params[:id_link]
-
-    @visits = Link.find(@link_id).visits.all
+    # @visits_search include visits for Report #1
+    # By default returns all visits (when NO filter is applied)
+    @visits_search = @visits
     # Allows search by ip_address with a partial match
-    @visits = @visits.where('ip_address LIKE ?', "%#{params[:ip_address]}%") if params[:ip_address].present?
+    @visits_search  = @visits_search .where('ip_address LIKE ?', "%#{params[:ip_address]}%") if params[:ip_address].present?
     # Allows search by date range, also searching bigger than a date or less than a date (at least one is required)
     if params[:start_date].present? && params[:end_date].present? && params[:start_date] > params[:end_date]
       flash[:error] = "End Date must be after Start Date"
       redirect_back fallback_location: root_path
     elsif params[:start_date].present? || params[:end_date].present?
-        from = params[:start_date].present? ? params[:start_date] : Link.find(@link_id).visits.minimum(:visited_at).strftime("%Y-%m-%d")
+        from = params[:start_date].present? ? params[:start_date] : @link.visits.minimum(:visited_at).strftime("%Y-%m-%d")
         to = params[:end_date].present? ? params[:end_date] : Date.today.strftime("%Y-%m-%d")
-        @visits = @visits.where(visited_at: from..to)
+        @visits_search  = @visits_search .where(visited_at: from..to)
       end
   end
 
   def clear
-    @visits = Visit.all
+    @visits_search = @visits
     render :report
   end
 
@@ -134,6 +139,10 @@ class LinksController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_link
       @link = Link.find(params[:id])
+    end
+
+    def set_visits_to_link
+      @visits = @link.visits.all
     end
 
     def set_link_from_slug
