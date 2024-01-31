@@ -16,32 +16,40 @@
     <%= form.text_field :name %>
   </div>
 
+  <br>
+
   <div>
     <%= form.label :large_url, style: "display: block" %>
     <%= form.text_field :large_url %>
   </div>
 
-  <% if (params[:action] == "new") || @link.type == "LinkTemporal" %>
+  <br>
+
+  <% if params[:link_type] == "LinkTemporal" || @link.type == "LinkTemporal"%>
     <div>
       <%= form.label :expires_at %>
+      <br>
       <%= form.datetime_local_field :expires_at %>
     </div>
   <% end %>
 
-  <% if (params[:action] == "new") || @link.type == "LinkPrivate" %>
+  <br>
+
+  <% if params[:link_type] == "LinkPrivate" || @link.type == "LinkPrivate" %>
     <div>
       <%= form.label :secret %>
+      <br>
       <%= form.text_field :secret %>
     </div>
   <% end %>
 
-  <% if params[:action] == "new" %>
-    <div>
-      <%= form.label :type, 'Select Link Type:' %>
-      <%= form.select :type, options_for_select(['LinkRegular', 'LinkTemporal', 'LinkEphemeral', 'LinkPrivate'], 'LinkRegular') %>
-    </div>
+  <br>
+
+  <!-- include link_type as part of the submit parameters -->
+  <% if params[:link_type] %>
+    <%= hidden_field_tag :link_type, params[:link_type] %>
   <% end %>
-    
+
   <div>
     <%= form.submit %>
   </div>

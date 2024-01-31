@@ -10,6 +10,12 @@
       margin: 10px;
       float: right;
     }
+
+  hr {
+    border: 5px solid #ccc; /* Adjust the color and thickness of the line */
+    margin-top: 20px; /* Adjust the top margin */
+    margin-bottom: 20px; /* Adjust the bottom margin */
+  }
 </style>
 
  <div class="right-aligned-div">
@@ -48,4 +54,13 @@
     </tbody>
   </table>
 
-  <%= link_to "New link", new_link_path %>
+<hr>
+<h3> Create New Link </h3>
+
+<%= form_tag(new_link_path, method: "get") do %>
+  <%= radio_button_tag :link_type, "LinkRegular", true %> Regular
+  <%= radio_button_tag :link_type, "LinkPrivate" %> Private
+  <%= radio_button_tag :link_type, "LinkEphemeral" %> Ephemeral
+   <%= radio_button_tag :link_type, "LinkTemporal" %> Temporal
+  <%= submit_tag "New Link" %>
+<% end %>
