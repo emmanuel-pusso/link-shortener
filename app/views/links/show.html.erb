@@ -1,10 +1,9 @@
 <p style="color: green"><%= notice %></p>
-
+<%= link_to "Back to links", links_path %>
 <%= render 'links/link', link: @link %>
 
 <div>
   <%= link_to "Edit this link", edit_link_path(@link) %> |
-  <%= link_to "Back to links", links_path %>
-
+  <%= link_to "See reports", link_report_url(@link) %> 
   <%= button_to "Destroy this link", link_path(@link), method: :delete %>
 </div>
