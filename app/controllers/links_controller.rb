@@ -1,9 +1,9 @@
 class LinksController < ApplicationController
   before_action :set_current_user
-  before_action :set_link, only: %i[ show edit update destroy report ]
-  before_action :set_link_from_slug, only: %i[redirect_to_large_url redirect_to_large_url_for_private_links]
-  before_action :set_visits_to_link, only: %i[ report ]
-
+  before_action :set_and_validate_link_from_id, only: %i[show destroy edit update report clear]
+  before_action :set_and_validate_link_from_slug, only: %i[redirect_to_large_url redirect_to_large_url_for_private_links]
+  before_action :set_visits_to_link, only: %i[report]
+  
   # GET /links or /links.json for @current_user
   def index
     @links = Link.where(user_id: @current_user.id)
@@ -69,10 +69,6 @@ class LinksController < ApplicationController
     #   if meets the conditions depending on the link type
     def redirect_to_large_url
      
-      #if :slug doesn't exist on DB returns 404
-      if @link_to_redirect.nil?
-        render plain: 'Not Found', status: :not_found
-      else
         case (@link_to_redirect.type)
         when 'LinkPrivate'
           # redirect to view to request password to user
@@ -86,7 +82,6 @@ class LinksController < ApplicationController
             redirection_on_error
           end
         end
-      end
     end
 
     def redirect_to_large_url_for_private_links
@@ -128,6 +123,10 @@ class LinksController < ApplicationController
     render :report
   end
 
+  # To render Access Denied view when User has no access to that link
+  def access_denied
+  end
+
    
   private
 
@@ -135,17 +134,28 @@ class LinksController < ApplicationController
       @current_user = current_user
     end 
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_link
-      @link = Link.find(params[:id])
+    def set_and_validate_link_from_id
+      @link = Link.find_by(id: params[:id])
+  
+      if @link.nil?
+        render plain: 'Not Found', status: :not_found
+      elsif @link.user_id != @current_user.id
+        redirect_to access_denied_path
+      end
+    end
+
+    def set_and_validate_link_from_slug
+      @link_to_redirect = Link.find_by(slug: params[:slug])
+
+      if @link_to_redirect.nil?
+        render plain: 'Not Found', status: :not_found
+      elsif @link_to_redirect.user_id != @current_user.id
+        redirect_to access_denied_path
+      end
     end
 
     def set_visits_to_link
       @visits = @link.visits.all
-    end
-
-    def set_link_from_slug
-      @link_to_redirect = Link.find_by(slug: params[:slug])
     end
 
     # Only allow a list of trusted parameters through.
