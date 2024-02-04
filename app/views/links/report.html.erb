@@ -30,8 +30,7 @@
   <% end %>
 </div>
 
-
-
+<p> Amount of results: <%= @visits_search.length %> </p>
 <p> <b> Date</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | <b> IP address </b> </p>
 <% if @visits_search.any? %>
   <% @visits_search.each do |visit| %>

@@ -98,24 +98,22 @@ class LinksController < ApplicationController
   # @visits_search include visits for Report #1 (if no filter was applied, return all visits, otherwise, it returns the subset of visits that match the filters)
   # @visits_count include visits for Report #2 (returns a a hash where keys are dates and values are the counts of visits for each day for the specified link)
   def report
-    
+
+    link_id = params[:id]
+    ip_address = params[:ip_address]
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+
     # @visits_count include visits for Report #2 
-    @visits_count = @visits.group(:visited_at).count
+    @visits_count = Visit.byLink(link_id).groupByDate
 
     # @visits_search include visits for Report #1
-    # By default returns all visits (when NO filter is applied)
-    @visits_search = @visits
-    # Allows search by ip_address with a partial match
-    @visits_search  = @visits_search .where('ip_address LIKE ?', "%#{params[:ip_address]}%") if params[:ip_address].present?
-    # Allows search by date range, also searching bigger than a date or less than a date (at least one is required)
-    if params[:start_date].present? && params[:end_date].present? && params[:start_date] > params[:end_date]
+    if start_date.present? && end_date.present? && start_date > end_date
       flash[:error] = "End Date must be after Start Date"
       redirect_back fallback_location: root_path
-    elsif params[:start_date].present? || params[:end_date].present?
-        from = params[:start_date].present? ? params[:start_date] : @link.visits.minimum(:visited_at).strftime("%Y-%m-%d")
-        to = params[:end_date].present? ? params[:end_date] : Date.today.strftime("%Y-%m-%d")
-        @visits_search  = @visits_search .where(visited_at: from..to)
-    end
+    elsif
+      @visits_search = Visit.byLink(link_id).byIpAdress(ip_address).byDateRange(start_date, end_date)
+    end  
   end
 
   def clear
