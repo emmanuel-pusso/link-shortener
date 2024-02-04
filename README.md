@@ -90,7 +90,7 @@ Se redefinió la acción CREATE que hereda el comportamiento del controller orig
 		- Previamente se selecciona el tipo de Link, y solo se cargan los campos que correspondan para ese tipo
 - Autenticación y registración de usuarios
 - Cada usuario crea sus propios links
-- Redireccion a Not Found cuando el :id o :slug como parámetro en la URL es inexistente
+- Redireccion a Not Found cuando el :id o :slug (como parámetro en la URL) es inexistente
 - Redirección a Access Denied page cuando se quiere acceder por :id o :slug (como parámetro en la URL) a un Link que NO tengo permiso (es de otro usuario). 
 - Lógica para LinkPrivate (que requieren de una clave para acceder)
 - Logica de registrar las visitas a los Links (fecha, IP)
