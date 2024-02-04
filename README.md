@@ -38,28 +38,10 @@ este documento).
 
 ## Decisiones de diseño
 
-Para generar el slug único se uso la gema [securerandom](https://github.com/ruby/securerandom)
-
-Para validar el formato de los links se uso una expresión regular.
-
-El patrón de URL a utilizar es 
-http://localhost:3000/l/:slug
-
-***Por ejemplo:*** localhost:3000/l/FTI7VT
-
 Para modelar la jerarquía de Links en el modelo se uso el patrón **Single Table Inheritance**. 
 En Base de Datos solo existe la tabla **"links"** que distingue entre los diferentes tipos (LinkRegular, LinkEphemeral, LinkTemporal, LinkPrivate) por el el atributo "type".
 
-Se utiliza el mismo controlador para los diferentes tipos de Links, y se re-utiliza la misma vista.
-
-Se genero la ruta
-`get '/l/:slug', to: 'links#redirect_to_large_url'`
-
-Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redirect_to_large_url"*** que resuelve la lógica del trabajo.
-
-Para la autenticación y registración de usuarios se utilizo la gema [devise](https://github.com/heartcombo/devise).
-Tuve que personalizar la vista y el controlador para que admita el campo "username". 
-Se redefinió la acción CREATE que hereda el comportamiento del controller original de devise, pero customiza la parte del nuevo campo (username).
+Se utiliza el mismo controlador para los diferentes tipos de Links, y se re-utiliza la misma vista para creación, mostrando los campos de acuerdo al tipo de link que se quiera crear.
 
 Para LinkPrivate se creo una nueva vista (donde el usuario ingresa el password) y una nueva acción a donde es redirigido luego del submit del form (POST).
 Se presentaron problemas en la redirección del LinkPrivate (luego de ingresar el password y hacer el submit del form), tiraba errores por consola:
@@ -67,6 +49,27 @@ Se presentaron problemas en la redirección del LinkPrivate (luego de ingresar e
 - GET NS_ERROR_DOM_BAD_URI
   
 Para solucionarlo tuve que remover la gema turbo-rails del gemfile.
+
+El patrón de URL a utilizar es 
+http://localhost:3000/l/:slug
+
+***Por ejemplo:*** localhost:3000/l/FTI7VT
+
+Se genero la ruta
+`get '/l/:slug', to: 'links#redirect_to_large_url'`
+
+Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redirect_to_large_url"*** que resuelve la lógica del trabajo.
+
+Para generar el slug único se uso la gema [securerandom](https://github.com/ruby/securerandom)
+
+Para validar el formato de los links se uso una expresión regular.
+
+En el modelo de Vista, se eligió usar scope para generar las queries que luego se van a utilizar al generar los reportes.
+De esta manera se mantiene la lógica de búsquedas en el modelo, y queda más limpio el código en el controller.
+
+Para la autenticación y registración de usuarios se utilizo la gema [devise](https://github.com/heartcombo/devise).
+Tuve que personalizar la vista y el controlador para que admita el campo "username". 
+Se redefinió la acción CREATE que hereda el comportamiento del controller original de devise, pero customiza la parte del nuevo campo (username).
 
 ## Entrega #1
 - CRUD de Links para los tipos: LinkRegular, LinkEphemeral, LinkTemporal
@@ -86,6 +89,9 @@ Para solucionarlo tuve que remover la gema turbo-rails del gemfile.
 	- Refactor del código de creación de Link
 		- Previamente se selecciona el tipo de Link, y solo se cargan los campos que correspondan para ese tipo
 - Autenticación y registración de usuarios
+- Cada usuario crea sus propios links
+- Redireccion a Not Found cuando el :id o :slug como parámetro en la URL es inexistente
+- Redirección a Access Denied page cuando se quiere acceder por :id o :slug (como parámetro en la URL) a un Link que NO tengo permiso (es de otro usuario). 
 - Lógica para LinkPrivate (que requieren de una clave para acceder)
 - Logica de registrar las visitas a los Links (fecha, IP)
 - Se permite editar un LinkEphemeral reiniciando el valor de visited (si así lo quisiera)
