@@ -63,8 +63,9 @@ Se redefinió la acción CREATE que hereda el comportamiento del controller orig
 
 Para LinkPrivate se creo una nueva vista (donde el usuario ingresa el password) y una nueva acción a donde es redirigido luego del submit del form (POST).
 Se presentaron problemas en la redirección del LinkPrivate (luego de ingresar el password y hacer el submit del form), tiraba errores por consola:
-	OPTIONS CORS Missing Allow Origin
-	GET NS_ERROR_DOM_BAD_URI
+- OPTIONS CORS Missing Allow Origin
+- GET NS_ERROR_DOM_BAD_URI
+  
 Para solucionarlo tuve que remover la gema turbo-rails del gemfile.
 
 ## Entrega #1
