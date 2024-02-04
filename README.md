@@ -57,6 +57,16 @@ Se genero la ruta
 
 Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redirect_to_large_url"*** que resuelve la lógica del trabajo.
 
+Para la autenticación y registración de usuarios se utilizo la gema [devise](https://github.com/heartcombo/devise).
+Tuve que personalizar la vista y el controlador para que admita el campo "username". 
+Se redefinió la acción CREATE que hereda el comportamiento del controller original de devise, pero customiza la parte del nuevo campo (username).
+
+Para LinkPrivate se creo una nueva vista (donde el usuario ingresa el password) y una nueva acción a donde es redirigido luego del submit del form (POST).
+Se presentaron problemas en la redirección del LinkPrivate (luego de ingresar el password y hacer el submit del form), tiraba errores por consola:
+	OPTIONS CORS Missing Allow Origin
+	GET NS_ERROR_DOM_BAD_URI
+Para solucionarlo tuve que remover la gema turbo-rails del gemfile.
+
 ## Entrega #1
 - CRUD de Links para los tipos: LinkRegular, LinkEphemeral, LinkTemporal
 - Lógica de generación y asignación automática de Slug
@@ -66,10 +76,23 @@ Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redi
 - Como aún no se implemento la parte de autenticación la asignación de links está harcodeada, para que TODOS los links se asocien al User con **id:1**
 
 ## Entrega #2 (final)
-- Autenticación y registración de usuarios (se utilizará la gema [devise](https://github.com/heartcombo/devise))
+- Correciones Parte#1
+	- Correción y simplicación de rutas para Links
+	- Uso de callback (hooks) 
+		- para asignar el slug (generado automáticamente) a un Link
+		- para setear el link a partir del parámetro de la url :id
+		- para setear el link a partir del parámetro de la url :slug
+	- Refactor del código de creación de Link
+		- Previamente se selecciona el tipo de Link, y solo se cargan los campos que correspondan para ese tipo
+- Autenticación y registración de usuarios
 - Lógica para LinkPrivate (que requieren de una clave para acceder)
-- Logica de registrar las visitas a los Links (fecha, hora, IP)
+- Logica de registrar las visitas a los Links (fecha, IP)
+- Se permite editar un LinkEphemeral reiniciando el valor de visited (si así lo quisiera)
 - Reportes de visitas, con opción de filtrado/búsqueda por rango de fechas o IP
-- Mejorar la estética de la aplicación con agregado de css y código javascript
+    - Permite búsquedas solo por IP, incluso IP parcial
+    - Pemite búsqueda por fecha: From, To, From - To
+    - Permite bíúsqueda por ambos criterios rango de fechas & IP
+- Uso de scopes en el modelo de Visit, para realizar las queries que luego se van a utilizar en el controller para generar los reportes
+
   
 
