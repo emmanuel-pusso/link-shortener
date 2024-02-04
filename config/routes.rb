@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :links
 
-  get '/l/:slug', to: 'links#redirect_to_large_url'
+  get '/l/:slug', to: 'links#redirect_to_large_url', as: 'link_slug'
   post 'l/:slug', to: 'links#redirect_to_large_url_for_private_links', as: 'redirect_to_large_url_for_private_links'
 
 

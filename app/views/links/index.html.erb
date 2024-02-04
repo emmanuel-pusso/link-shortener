@@ -48,7 +48,8 @@
           <td><%= link.large_url %></td>
           <td><%= link.slug %></td>
           <td> <%= link_to "Show this link | ", link_path(link) %> </td>
-          <td> <%= link_to "Reports", link_report_url(link) %> </td>
+          <td> <%= link_to "Reports | ", link_report_url(link) %> </td>
+          <td> <%= link_to "Open Link", link_slug_url(link.slug), target: "_blank" %> </td>
         </tr>
        <% end %>
     </tbody>
