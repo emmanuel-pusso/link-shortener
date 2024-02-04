@@ -3,6 +3,15 @@
 Este repo contiene el código para el Trabajo Final Integrador de la materia
 **"Taller de Tecnologías de Producción de Software ‑ Ruby"** _(Cursada 2023)_
 
+# Menu
+
+- [Contexto](#contexto)
+- [Requisitos técnicos](#requisitos-técnicos)
+- [Pasos para correr la aplicación](#pasos-para-correr-la-aplicación)
+- [Decisiones de diseño](#decisiones-de-diseño)
+- [Entrega #1](#entrega-1)
+- [Entrega #2 (final)](#entrega-2-final)
+
 ## Contexto
 Estás a cargo del desarrollo de una aplicación de generación y gestión de links cortos, al estilo de Bitly,
 T.ly, o TinyURL. El objetivo de esta aplicación web es brindar links cortos para URLs arbitrariamente
@@ -48,7 +57,7 @@ Se genero la ruta
 
 Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redirect_to_large_url"*** que resuelve la lógica del trabajo.
 
-## Que incluye está entrega:
+## Entrega #1
 - CRUD de Links para los tipos: LinkRegular, LinkEphemeral, LinkTemporal
 - Lógica de generación y asignación automática de Slug
 - Comprobación de si el link puede ser accedido, delegada en el modelo de cada tipo de LINK
@@ -56,7 +65,7 @@ Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redi
 - Para **LinkTemporal** una vez que fue expires_at está en el pasado, la próxima vez que se quiera acceder retorna un código de respuesta **HTTP 404 Not Found**
 - Como aún no se implemento la parte de autenticación la asignación de links está harcodeada, para que TODOS los links se asocien al User con **id:1**
 
-## Cosas pendientes
+## Entrega #2 (final)
 - Autenticación y registración de usuarios (se utilizará la gema [devise](https://github.com/heartcombo/devise))
 - Lógica para LinkPrivate (que requieren de una clave para acceder)
 - Logica de registrar las visitas a los Links (fecha, hora, IP)
