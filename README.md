@@ -111,4 +111,5 @@ Se redefinió la acción CREATE que hereda el comportamiento del controller orig
 ## Data for testing
 
 Se generaron datos para cargar la BD en el archivo *seeds.rb*
+
 Para probar la parte de reportes, loguearse con el usuario **epusso@gmail.com** y acceder al LINK de nombre **LinkWithReports**
