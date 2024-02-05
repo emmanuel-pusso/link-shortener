@@ -34,37 +34,43 @@ este documento).
   - _Crear BD y correr migraciones:_ `rails db:create db:migrate`
   - _Para cargar las BD:_ `rails db:seed`
   - _Para levantar la aplicación:_ `rails server`
-  - _Abrir el browser y navegar a la url:_ http://localhost:3000/links
+  - _Abrir el browser y navegar a la url:_ http://localhost:3000/
 
 ## Decisiones de diseño
+Para el desarrollo del trabajo se utilizo el **framework de Rails**; y los siguientes **patrones de arquitectura**:
+- MVC (Model-View-Controller).
+- Active Record
+- Single Table Inheritance
+
+Se implementaron callbacks (o hooks) y se integraron gemas según las necesidades específicas, capitalizando las funcionalidades inherentes del framework para evitar redundancias en el desarrollo.
 
 Para modelar la jerarquía de Links en el modelo se uso el patrón **Single Table Inheritance**. 
 En Base de Datos solo existe la tabla **"links"** que distingue entre los diferentes tipos (LinkRegular, LinkEphemeral, LinkTemporal, LinkPrivate) por el el atributo "type".
 
-Se utiliza el mismo controlador para los diferentes tipos de Links, y se re-utiliza la misma vista para creación, mostrando los campos de acuerdo al tipo de link que se quiera crear.
+Se utiliza el mismo controlador para los diferentes tipos de Links "LinksController", y se re-utiliza la misma vista para creación, mostrando los campos de acuerdo al tipo de link que se quiera crear.
 
-Para LinkPrivate se creo una nueva vista (donde el usuario ingresa el password) y una nueva acción a donde es redirigido luego del submit del form (POST).
+El patrón de URL a utilizar para el formato de links cortos es
+http://localhost:3000/l/:slug
+
+***Por ejemplo:*** localhost:3000/l/FTI7VT
+
+Para ello se genero la ruta
+`get '/l/:slug', to: 'links#redirect_to_large_url'`
+
+Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redirect_to_large_url"*** que resuelve la lógica del trabajo.
+
+Para LinkPrivate se creo una **nueva vista** *"private.html.erb"* (donde el usuario ingresa el password) y una **nueva acción** *"redirect_to_large_url_for_private_link"* a donde es redirigido luego del submit (POST) del form.
 Se presentaron problemas en la redirección del LinkPrivate (luego de ingresar el password y hacer el submit del form), tiraba errores por consola:
 - OPTIONS CORS Missing Allow Origin
 - GET NS_ERROR_DOM_BAD_URI
   
 Para solucionarlo tuve que remover la gema turbo-rails del gemfile.
 
-El patrón de URL a utilizar es 
-http://localhost:3000/l/:slug
+Para generar el slug único se uso la gema [securerandom](https://github.com/ruby/securerandom), que permite generar un código alfanumérico único de 6 caracteres sensible a mayúsculas y minúsculas.
 
-***Por ejemplo:*** localhost:3000/l/FTI7VT
-
-Se genero la ruta
-`get '/l/:slug', to: 'links#redirect_to_large_url'`
-
-Donde se reutiliza el controlador de links, y se creo una nueva acción ***"redirect_to_large_url"*** que resuelve la lógica del trabajo.
-
-Para generar el slug único se uso la gema [securerandom](https://github.com/ruby/securerandom)
-
-Para validar el formato de los links se uso una expresión regular.
-
-En el modelo de Vista, se eligió usar scope para generar las queries que luego se van a utilizar al generar los reportes.
+Dentro del framework Rails, se utilizaron "scopes", que ayudan a escribir consultas de base de datos de manera más eficiente y legible.
+Estos métodos que se definen en los modelos, encapsulan consultas comunes o complejas a la base de datos, y **pueden ser encadenados y combinados con otros métodos de consulta para refinar aún más los resultados. 
+Los scopes fueran aplicados sobre el modelo **Visita**, para generar las queries que luego se van a utilizar al generar los reportes.
 De esta manera se mantiene la lógica de búsquedas en el modelo, y queda más limpio el código en el controller.
 
 Para la autenticación y registración de usuarios se utilizo la gema [devise](https://github.com/heartcombo/devise).
