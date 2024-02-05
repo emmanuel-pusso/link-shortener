@@ -11,7 +11,7 @@ Este repo contiene el código para el Trabajo Final Integrador de la materia
 - [Decisiones de diseño](#decisiones-de-diseño)
 - [Entrega #1](#entrega-1)
 - [Entrega #2 (final)](#entrega-2-final)
-- [Data for testing] (#data-for-testing)
+- [Data for testing](#data-for-testing)
 
 ## Contexto
 Estás a cargo del desarrollo de una aplicación de generación y gestión de links cortos, al estilo de Bitly,
