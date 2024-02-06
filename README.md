@@ -11,7 +11,7 @@ Este repo contiene el código para el Trabajo Final Integrador de la materia
 - [Decisiones de diseño](#decisiones-de-diseño)
 - [Entrega #1](#entrega-1)
 - [Entrega #2 (final)](#entrega-2-final)
-- [Data for testing](#data-for-testing)
+- [Datos de prueba](#datos-de-prueba)
 
 ## Contexto
 Estás a cargo del desarrollo de una aplicación de generación y gestión de links cortos, al estilo de Bitly,
@@ -108,8 +108,12 @@ Se redefinió la acción CREATE que hereda el comportamiento del controller orig
     - Permite bíúsqueda por ambos criterios rango de fechas & IP
 - Uso de scopes en el modelo de Visit, para realizar las queries que luego se van a utilizar en el controller para generar los reportes
 
-## Data for testing
+## Datos de prueba
 
 Se generaron datos para cargar la BD en el archivo *seeds.rb*
 
-Para probar la parte de reportes, loguearse con el usuario **epusso@gmail.com** y acceder al LINK de nombre **LinkWithReports**
+Para probar la parte de reportes, loguearse con el usuario **epusso@gmail.com** (Password: 123456) y acceder al LINK de nombre **LinkWithReports**
+
+Para probar un link temporal, loguearse con el usuario **nramirez@gmail.com** (Password: 654321), y acceder al LINK de nombre **LinkExpiredNext5Minutes**
+
+(Expira 5 minutos despúes de haberse ejecutado el comando `rails db:seed` para cargar la BD)
